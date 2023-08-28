@@ -3,7 +3,7 @@
 var gl;
 var points;
 
-var NumPoints = 100;
+var NumPoints = 10;
 
 window.onload = function init()
 {
@@ -29,11 +29,12 @@ window.onload = function init()
 
     var u = add( vertices[0], vertices[1] );
     var v = add( vertices[0], vertices[2] );
-    // var p = scale( 0.25, add( u, v ) );
-    var p = [100,100]
+    var p = scale( 0.25, add( u, v ) );
+
     // And, add our initial point into our array of points
 
     points = [ p ];
+
     // Compute new points
     // Each new point is located midway between
     // last point and a randomly chosen vertex
@@ -44,7 +45,7 @@ window.onload = function init()
         p = scale( 0.5, p );
         points.push( p );
     }
-
+    console.log(points)
     //
     //  Configure WebGL
     //
@@ -74,5 +75,5 @@ window.onload = function init()
 
 function render() {
     gl.clear( gl.COLOR_BUFFER_BIT );
-    gl.drawArrays( gl.POINTS, 0, points.length );
+    gl.drawArrays( gl.TRIANGLES, 0, 10 );
 }
