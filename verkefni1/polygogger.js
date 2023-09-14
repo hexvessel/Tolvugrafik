@@ -18,11 +18,12 @@ var carFive = [];
 var carSix = [];
 
 var maxX = 1.0;
-var carOneSpeed = 0.007;
+
+var carOneSpeed = 0.01;
 var carTwoSpeed = 0.012;
-var carThreeSpeed = 0.005;
-var carFourSpeed = 0.01;
-var carFiveSpeed = 0.006;
+var carThreeSpeed = 0.01;
+var carFourSpeed = 0.02;
+var carFiveSpeed = 0.012;
 var carSixSpeed = 0.011;
 
 var colorLoc;
