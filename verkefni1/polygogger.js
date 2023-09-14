@@ -4,12 +4,14 @@ var gl;
 
 var bufferFrog;
 var bufferLanes;
+var bufferPavement;
 var bufferCarOne;
 var bufferCarTwo;
 var bufferCarThree;
 
 var frog = [];
 var lanes = [];
+var pavement = [];
 var carOne = [];
 var carTwo = [];
 var carThree = [];
@@ -19,12 +21,12 @@ var carSix = [];
 
 var maxX = 1.0;
 
-var carOneSpeed = 0.01;
+var carOneSpeed = 0.009;
 var carTwoSpeed = 0.012;
-var carThreeSpeed = 0.01;
+var carThreeSpeed = 0.005;
 var carFourSpeed = 0.02;
 var carFiveSpeed = 0.012;
-var carSixSpeed = 0.011;
+var carSixSpeed = 0.009;
 
 var colorLoc;
 var vPosition;
@@ -51,6 +53,12 @@ window.onload = function init() {
         vec2(-1.0, -0.2), vec2(-1.0, -0.4), vec2(1.0, -0.2), vec2(1.0, -0.2), vec2(1.0, -0.4), vec2(-1.0, -0.4)
     ];
 
+    pavement = [
+        vec2(-1.0, 0.8), vec2(-1.0, 0.6), vec2(1.0, 0.8), vec2(1.0, 0.8), vec2(1.0, 0.6), vec2(-1.0, 0.6),
+        vec2(-1.0, 0.4), vec2(-1.0, 0.2), vec2(1.0, 0.4), vec2(1.0, 0.4), vec2(1.0, 0.2), vec2(-1.0, 0.2),
+        vec2(-1.0, 0.0), vec2(-1.0, -0.2), vec2(1.0, 0.0), vec2(1.0, 0.0), vec2(1.0, -0.2), vec2(-1.0, -0.2),
+        vec2(-1.0, -0.4), vec2(-1.0, -0.6), vec2(1.0, -0.4), vec2(1.0, -0.4), vec2(1.0, -0.6), vec2(-1.0, -0.6),
+    ];
     carOne = [
         vec2(-1.0, 0.6), vec2(-1.0, 0.5), vec2(-0.8, 0.6),
         vec2(-0.8, 0.6), vec2(-0.8, 0.5), vec2(-1.0, 0.5)
@@ -79,7 +87,7 @@ window.onload = function init() {
     //  Configure WebGL
     //
     gl.viewport(0, 0, canvas.width, canvas.height);
-    gl.clearColor(1.0, 1.0, 0.5, 1.0);
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
     //  Load shaders and initialize attribute buffers
 
@@ -119,6 +127,10 @@ window.onload = function init() {
     bufferLanes = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferLanes);
     gl.bufferData(gl.ARRAY_BUFFER, flatten(lanes), gl.STATIC_DRAW);
+
+    bufferPavement = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, bufferPavement);
+    gl.bufferData(gl.ARRAY_BUFFER, flatten(pavement), gl.STATIC_DRAW);
     // Associate out shader variables with our data buffer
 
     vPosition = gl.getAttribLocation(program, "vPosition");
@@ -181,11 +193,7 @@ function render() {
 
     document.getElementById("score").textContent = score;
 
-    //VEGIR
-    gl.bindBuffer(gl.ARRAY_BUFFER, bufferLanes);
-    gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
-    gl.uniform4fv(colorLoc, flatten(vec4(1.0, 0.8, 0.0, 1.0)));
-    gl.drawArrays(gl.TRIANGLES, 0, 18);
+
 
 
     //LÁTA BÍLA SKOPPA AF VEGGJUM
@@ -196,6 +204,18 @@ function render() {
 
     //ÁREKSTRAR
     collision();
+
+    //GANGSTÉTTIR
+    gl.bindBuffer(gl.ARRAY_BUFFER, bufferPavement);
+    gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
+    gl.uniform4fv(colorLoc, flatten(vec4(0.6, 0.5, 0.6, 1.0)));
+    gl.drawArrays(gl.TRIANGLES, 0, 24);
+
+    //VEGIR
+    gl.bindBuffer(gl.ARRAY_BUFFER, bufferLanes);
+    gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
+    gl.uniform4fv(colorLoc, flatten(vec4(0.5, 0.5, 0.5, 1.0)));
+    gl.drawArrays(gl.TRIANGLES, 0, 18);
 
     //TEIKNA BÍLA
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferCarOne);
@@ -213,7 +233,7 @@ function render() {
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferCarThree);
     gl.bufferData(gl.ARRAY_BUFFER, flatten(carThree), gl.STATIC_DRAW);
     gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
-    gl.uniform4fv(colorLoc, flatten(vec4(0.5, 0.5, 0.5, 1.0)));
+    gl.uniform4fv(colorLoc, flatten(vec4(0.5, 1.0, 0.5, 1.0)));
     gl.drawArrays(gl.TRIANGLES, 0, 6);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferCarFour);
@@ -294,24 +314,26 @@ function checkScored() {
 
 //FALL SEM SÉR UM ÁREKSTRA
 function collision() {
-    if ((frog[0][0] > carOne[0][0] && frog[0][0] < carOne[3][0]) &&
-        frog[0][1] < carOne[0][1] && frog[1][1] > carOne[1][1]) {
+    var centroidX = (frog[0][0] + frog[1][0] + frog[2][0]) / 3;
+    var centroidY = (frog[0][1] + frog[1][1] + frog[2][1]) / 3;
+
+    if ((centroidX > carOne[0][0] && centroidX < carOne[3][0]) &&
+        centroidY < carOne[0][1] && centroidY > carOne[1][1]) {
         location.reload()
-    }
-    else if ((frog[0][0] < carTwo[0][0] && frog[0][0] > carTwo[3][0]) &&
-        frog[0][1] < carTwo[0][1] && frog[1][1] > carTwo[1][1]) {
+    } else if ((centroidX < carTwo[0][0] && centroidX > carTwo[3][0]) &&
+        centroidY < carTwo[0][1] && centroidY > carTwo[1][1]) {
         location.reload()
-    } else if ((frog[0][0] < carThree[0][0] && frog[0][0] > carThree[3][0]) &&
-        frog[0][1] < carThree[0][1] && frog[1][1] > carThree[1][1]) {
+    } else if ((centroidX < carThree[0][0] && centroidX > carThree[3][0]) &&
+        centroidY < carThree[0][1] && centroidY > carThree[1][1]) {
         location.reload()
-    } else if ((frog[0][0] < carFour[0][0] && frog[0][0] > carFour[3][0]) &&
-        frog[0][1] < carFour[0][1] && frog[1][1] > carFour[1][1]) {
+    } else if ((centroidX < carFour[0][0] && centroidX > carFour[3][0]) &&
+        centroidY < carFour[0][1] && centroidY > carFour[1][1]) {
         location.reload()
-    } else if ((frog[0][0] > carFive[0][0] && frog[0][0] < carFive[3][0]) &&
-        frog[0][1] < carFive[0][1] && frog[1][1] > carFive[1][1]) {
+    } else if ((centroidX > carFive[0][0] && centroidX < carFive[3][0]) &&
+        centroidY < carFive[0][1] && centroidY > carFive[1][1]) {
         location.reload()
-    } else if ((frog[0][0] < carSix[0][0] && frog[0][0] > carSix[3][0]) &&
-        frog[0][1] < carSix[0][1] && frog[1][1] > carSix[1][1]) {
+    } else if ((centroidX < carSix[0][0] && centroidX > carSix[3][0]) &&
+        centroidY < carSix[0][1] && centroidY > carSix[1][1]) {
         location.reload()
     }
 }
