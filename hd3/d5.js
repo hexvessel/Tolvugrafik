@@ -25,6 +25,8 @@ var maxY = 1.0;
 // Hálf breidd/hæð ferningsins
 var boxRad = 0.05;
 
+var score = 0;
+
 window.onload = function init() {
 
     canvas = document.getElementById("gl-canvas");
@@ -95,24 +97,32 @@ window.onload = function init() {
         }
     });
 
+
     render();
 }
 
 
 function render() {
 
+
+    document.getElementById("score").textContent = score;
+    
     var x_mid = (box[0][0] + box[2][0]) / 2;
     var y_mid = (box[0][1] + box[2][1]) / 2;
 
     // Láta ferninginn skoppa af veggjunum
     if (Math.abs(x_mid + dX) > maxX - boxRad) dX = -dX;
-    if (Math.abs(y_mid + dY) > maxY - boxRad) dY = -dY;
+    if (y_mid + dY > maxY - boxRad) dY = -dY;
+    
+    if( y_mid < -maxY) location.reload()
 
-
-    if (((box[0][1] ) < vertices[0][1]) &&
+    if (((box[0][1]) < vertices[0][1]) &&
         ((x_mid + dX) < vertices[2][0]) &&
-        ((x_mid + dX) > vertices[0][0] ))
-        dY = -dY;
+        ((x_mid + dX) > vertices[0][0]))
+        {
+            dY = -dY;
+            score++;
+        }
 
 
     // Uppfæra staðsetningu
