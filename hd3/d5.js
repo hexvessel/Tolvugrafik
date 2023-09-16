@@ -38,8 +38,8 @@ window.onload = function init() {
     gl.clearColor(0.8, 0.8, 0.8, 1.0);
 
     // Gefa ferningnum slembistefnu í upphafi
-    dX = Math.random() * 0.015;
-    dY = Math.random() * 0.015;
+    dX = 0.005;
+    dY = 0.005;
 
     //
     //  Load shaders and initialize attribute buffers
