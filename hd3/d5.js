@@ -106,7 +106,7 @@ function render() {
 
 
     document.getElementById("score").textContent = score;
-    
+
     var x_mid = (box[0][0] + box[2][0]) / 2;
     var y_mid = (box[0][1] + box[2][1]) / 2;
 
@@ -121,6 +121,8 @@ function render() {
         ((x_mid + dX) > vertices[0][0]))
         {
             dY = -dY;
+            dX *= 1.1;
+            dY *= 1.1;
             score++;
         }
 
