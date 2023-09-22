@@ -114,11 +114,11 @@ function render() {
     if (Math.abs(x_mid + dX) > maxX - boxRad) dX = -dX;
     if (y_mid + dY > maxY - boxRad) dY = -dY;
     
-    if( y_mid < -maxY) location.reload()
+    if( y_mid < -maxY) location.reload();
 
     if (((box[0][1]) < vertices[0][1]) &&
         ((x_mid + dX) < vertices[2][0]) &&
-        ((x_mid + dX) > vertices[0][0]))
+        ((x_mid + dX) > vertices[0][0]) )
         {
             dY = -dY;
             dX *= 1.1;
