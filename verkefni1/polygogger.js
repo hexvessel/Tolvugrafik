@@ -190,11 +190,7 @@ function render() {
 
     window.requestAnimFrame(render);
 
-
     document.getElementById("score").textContent = score;
-
-
-
 
     //LÁTA BÍLA SKOPPA AF VEGGJUM
     bounce();
@@ -265,31 +261,38 @@ function render() {
 
 //FALL SEM FÆRIR BÍLA OG PASSAR AÐ ÞEIR SNÚI VIÐ EF ÞEIR ERU AÐ FARA ÚTAF RAMMANUM
 function bounce() {
-    if ((Math.abs(carOne[0][0]) > maxX) || (Math.abs(carOne[2][0]) > maxX)) carOneSpeed = -carOneSpeed;
+    if ((Math.abs(carOne[0][0]) > maxX) || (Math.abs(carOne[2][0]) > maxX))
+        carOneSpeed = -carOneSpeed;
     for (let i = 0; i < 6; i++) {
         carOne[i][0] += carOneSpeed;
     }
 
-    if ((Math.abs(carTwo[0][0]) > maxX) || (Math.abs(carTwo[2][0]) > maxX)) carTwoSpeed = -carTwoSpeed;
+    if ((Math.abs(carTwo[0][0]) > maxX) || (Math.abs(carTwo[2][0]) > maxX))
+        carTwoSpeed = -carTwoSpeed;
     for (let i = 0; i < 6; i++) {
         carTwo[i][0] += carTwoSpeed;
     }
 
-    if ((Math.abs(carThree[0][0]) > maxX) || (Math.abs(carThree[2][0]) > maxX)) carThreeSpeed = -carThreeSpeed;
+    if ((Math.abs(carThree[0][0]) > maxX) || (Math.abs(carThree[2][0]) > maxX))
+        carThreeSpeed = -carThreeSpeed;
     for (let i = 0; i < 6; i++) {
         carThree[i][0] += carThreeSpeed;
     }
 
-    if ((Math.abs(carFour[0][0]) > maxX) || (Math.abs(carFour[2][0]) > maxX)) carFourSpeed = -carFourSpeed;
+    if ((Math.abs(carFour[0][0]) > maxX) || (Math.abs(carFour[2][0]) > maxX))
+        carFourSpeed = -carFourSpeed;
     for (let i = 0; i < 6; i++) {
         carFour[i][0] += carFourSpeed;
     }
 
-    if ((Math.abs(carFive[0][0]) > maxX) || (Math.abs(carFive[2][0]) > maxX)) carFiveSpeed = -carFiveSpeed;
+    if ((Math.abs(carFive[0][0]) > maxX) || (Math.abs(carFive[2][0]) > maxX))
+        carFiveSpeed = -carFiveSpeed;
     for (let i = 0; i < 6; i++) {
         carFive[i][0] += carFiveSpeed;
     }
-    if ((Math.abs(carSix[0][0]) > maxX) || (Math.abs(carSix[2][0]) > maxX)) carSixSpeed = -carSixSpeed;
+    
+    if ((Math.abs(carSix[0][0]) > maxX) || (Math.abs(carSix[2][0]) > maxX))
+        carSixSpeed = -carSixSpeed;
     for (let i = 0; i < 6; i++) {
         carSix[i][0] += carSixSpeed;
     }
