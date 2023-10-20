@@ -51,7 +51,7 @@ var fish_dir_1 = vec3(fish_speed_1,fish_speed_1,fish_speed_1);
 var fish_pos_2 = vec3(Math.random(),Math.random(),Math.random());
 var fish_col_2 = vec4(Math.random(),Math.random(),Math.random(),1.0);
 var fish_speed_2 = Math.random()*0.002;
-var fish_dir_2 = vec3(fish_speed_2,fish_speed_2,fish_speed_2);
+var fish_dir_2 = vec3(Math.random()*0.002,Math.random()*0.002,Math.random()*0.002);
 
 var fish_pos_3 = vec3(Math.random(),Math.random(),Math.random());
 var fish_col_3 = vec4(Math.random(),Math.random(),Math.random(),1.0);
