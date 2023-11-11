@@ -261,7 +261,6 @@
                             let x_dif = Math.abs(body_pos.x - bullet.position.x);
                             let z_dif = Math.abs(body_pos.z - bullet.position.z);
                             if (x_dif < 8 && z_dif < 8) {
-                                console.log("bodyHIT");
                                 if (k < centipedes[j].length - 1) {
                                     const new_head_material = new THREE.MeshPhongMaterial();
                                     new_head_material.color.setHSL(0.5, 1.0, 0.2);
@@ -272,6 +271,9 @@
 
                                     let body_xpos = centipedes[j][k + 1].position.x;
                                     let body_zpos = centipedes[j][k + 1].position.z;
+
+                                    const shroom_x = centipedes[j][k].position.x;
+                                    const shroom_z = centipedes[j][k].position.z;
 
                                     new_head.position.x = body_xpos;
                                     new_head.position.z = body_zpos;
@@ -285,7 +287,7 @@
 
                                     new_centipede.push([new_head, centipedes[j][0][1], 1]);
 
-                                    for (let centipede_part = 0; centipede_part < centipedes[j].length-2; centipede_part++) {
+                                    for (let centipede_part = 0; centipede_part < centipedes[j].length - 2; centipede_part++) {
                                         const centipede_body_material = new THREE.MeshPhongMaterial();
                                         centipede_body_material.color.setHSL(0.5, 1.0, 0.3);
                                         const centipede_body_geometry = new THREE.SphereGeometry(5, 32, 12);
@@ -293,25 +295,30 @@
 
                                         centipede_body.position.z = body_zpos;
                                         centipede_body.position.x = body_xpos + (10 * new_centipede[0][1]);
-                                        console.log(new_centipede[0][1]); 
+                                        console.log(new_centipede[0][1]);
                                         body_xpos = centipede_body.position.x;
                                         body_zpos = centipede_body.position.z;
                                         new_centipede.push(centipede_body);
                                         scene.add(centipede_body);
                                     }
 
-                                    centipedes.push(new_centipede); 
+                                    centipedes.push(new_centipede);
                                     scene.remove(bullet);
                                     bullets.splice(index, 1);
+                                    
+                                    addShroom(shroom_x, shroom_z);
                                     score += 10;
                                     document.getElementById("score").innerHTML = score;
                                     return;
                                 } else {
+                                    const shroom_x = centipedes[j][k].position.x;
+                                    const shroom_z = centipedes[j][k].position.z;
                                     scene.remove(centipedes[j][k])
                                     centipedes[j].splice(k, 1);
 
                                     scene.remove(bullet);
                                     bullets.splice(index, 1);
+                                    addShroom(shroom_x, shroom_z);
                                     score += 10;
                                     document.getElementById("score").innerHTML = score;
                                     return;
@@ -416,7 +423,7 @@
                         centipede_part = centipedes[i][j];
                     }
                 }
-                if(centipede_head.position.z > 135){
+                if (centipede_head.position.z > 135) {
                     location.reload();
                 }
             }
